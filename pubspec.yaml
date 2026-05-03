@@ -1,6 +1,6 @@
 name: fanes_api_pro
 description: Advanced Flutter CLI with Email & Password Widget.
-version: 1.0.7
+version: 1.0.8
 publish_to: 'none'
 
 environment:

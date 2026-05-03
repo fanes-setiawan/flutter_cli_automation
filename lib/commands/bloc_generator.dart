@@ -20,11 +20,14 @@ class BlocGenerator {
     }
 
     _createFiles(baseDir, snakeName, pascalName);
+    
+    // OTOMATIS DAFTARKAN RUTE (Sama seperti GetX)
+    _injectRoutes(snakeName, pascalName);
 
-    // OTOMATIS DAFTARKAN KE app_providers.dart
+    // OTOMATIS DAFTARKAN KE app_providers.dart (Create if missing)
     _injectProvider(snakeName, pascalName);
 
-    print('✅ Berhasil membuat BLoC Feature: $pascalName & Terdaftar di AppProviders');
+    print('✅ Berhasil membuat BLoC Feature: $pascalName & Terdaftar di AppProviders/Routes');
   }
 
   static void _createFiles(String baseDir, String snakeName, String pascalName) {
@@ -78,19 +81,61 @@ class ${pascalName}Page extends StatelessWidget {
 
   static void _injectProvider(String snakeName, String pascalName) {
     final file = File('lib/app_providers.dart');
-    if (!file.existsSync()) return;
+    
+    // Create file if it doesn't exist
+    if (!file.existsSync()) {
+      file.writeAsStringSync('''
+import 'package:flutter_bloc/flutter_bloc.dart';
+// [GEN_IMPORTS]
+
+class AppProviders {
+  static final providers = [
+    // [GEN_PROVIDERS]
+  ];
+}
+''');
+    }
 
     String content = file.readAsStringSync();
     if (!content.contains(pascalName)) {
       // Inject Import
       content = content.replaceFirst('// [GEN_IMPORTS]', 
-        'import \'features/$snakeName/bloc/${snakeName}_bloc.dart\';\n// [GEN_IMPORTS]');
+        'import \'features/$snakeName/bloc/${snakeName}_bloc.dart\';\\n// [GEN_IMPORTS]');
       
       // Inject Provider
       content = content.replaceFirst('// [GEN_PROVIDERS]', 
-        'BlocProvider(create: (context) => ${pascalName}Bloc()),\n    // [GEN_PROVIDERS]');
+        'BlocProvider(create: (context) => ${pascalName}Bloc()),\\n    // [GEN_PROVIDERS]');
       
       file.writeAsStringSync(content);
+    }
+  }
+
+  static void _injectRoutes(String snakeName, String pascalName) {
+    final routesFile = File('lib/core/routes/app_routes.dart');
+    final pagesFile = File('lib/core/routes/app_pages.dart');
+
+    if (routesFile.existsSync()) {
+      String content = routesFile.readAsStringSync();
+      if (!content.contains(snakeName)) {
+        content = content.replaceFirst('// [GEN_ROUTES]', 
+          'static const String $snakeName = \'/$snakeName\';\n  // [GEN_ROUTES]');
+        routesFile.writeAsStringSync(content);
+      }
+    }
+
+    if (pagesFile.existsSync()) {
+      String content = pagesFile.readAsStringSync();
+      if (!content.contains(pascalName)) {
+        content = content.replaceFirst('// [GEN_IMPORTS]', 
+          'import \'../../features/$snakeName/ui/${snakeName}_page.dart\';\n// [GEN_IMPORTS]');
+        content = content.replaceFirst('// [GEN_PAGES]', 
+          '''GetPage(
+      name: AppRoutes.$snakeName,
+      page: () => const ${pascalName}Page(),
+    ),
+    // [GEN_PAGES]''');
+        pagesFile.writeAsStringSync(content);
+      }
     }
   }
 }

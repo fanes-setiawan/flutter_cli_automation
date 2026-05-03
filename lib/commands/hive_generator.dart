@@ -14,14 +14,10 @@ class LocalStorage {
     await Hive.initFlutter();
     await Hive.openBox(_boxName);
   }
-  static Future<void> save(String key, dynamic value) async {
-    await Hive.box(_boxName).put(key, value);
-  }
-  static dynamic get(String key) {
-    return Hive.box(_boxName).get(key);
-  }
+  static Future<void> save(String key, dynamic value) async => await Hive.box(_boxName).put(key, value);
+  static dynamic get(String key) => Hive.box(_boxName).get(key);
 }
 ''');
-    print('✅ Hive Local Storage berhasil disiapkan!');
+    print('✅ Hive Ready! Panggil \x1B[33mawait LocalStorage.init();\x1B[0m di main.dart Anda.');
   }
 }
