@@ -1,6 +1,6 @@
 name: fanes_api_pro
-description: Advanced Flutter CLI with Auto-Provider Registration.
-version: 1.0.6
+description: Advanced Flutter CLI with Email & Password Widget.
+version: 1.0.7
 publish_to: 'none'
 
 environment:

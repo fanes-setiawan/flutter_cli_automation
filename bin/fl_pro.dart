@@ -8,7 +8,7 @@ import '../lib/commands/widget_generator.dart';
 import '../lib/commands/hive_generator.dart';
 import '../lib/commands/api_generator.dart';
 
-const String cliVersion = '1.0.6';
+const String cliVersion = '1.0.7';
 
 void main(List<String> arguments) {
   final parser = ArgParser();
@@ -16,6 +16,7 @@ void main(List<String> arguments) {
   parser.addCommand('guide');
   parser.addCommand('version');
   parser.addCommand('w-password');
+  parser.addCommand('w-email');
   parser.addCommand('h-init');
   
   final postCommand = parser.addCommand('add-post');
@@ -34,7 +35,7 @@ void main(List<String> arguments) {
     final commandName = results.command?.name;
 
     if (commandName == 'version') {
-      print('🚀 [FINAL VERSION] Fanes-Code CLI Version: $cliVersion');
+      print('🚀 Fanes-Code CLI Version: $cliVersion');
       return;
     }
     if (commandName == 'guide') {
@@ -43,6 +44,10 @@ void main(List<String> arguments) {
     }
     if (commandName == 'w-password') {
       WidgetGenerator.generatePassword();
+      return;
+    }
+    if (commandName == 'w-email') {
+      WidgetGenerator.generateEmail();
       return;
     }
     if (commandName == 'h-init') {
@@ -87,12 +92,13 @@ void main(List<String> arguments) {
 }
 
 void _showUsage() {
-  print('🚀 [FINAL VERSION] Welcome to Fanes-Code CLI! [v$cliVersion]');
+  print('🚀 Welcome to Fanes-Code CLI! [v$cliVersion]');
   print('Usage:');
   print('  fanes-cli init             : Setup struktur folder awal');
   print('  fanes-cli guide            : Tampilkan panduan penggunaan');
   print('  fanes-cli version          : Tampilkan versi CLI');
   print('  fanes-cli w-password       : Create Password Field Widget');
+  print('  fanes-cli w-email          : Create Email Field Widget');
   print('  fanes-cli h-init           : Setup Hive Local Storage');
   print('  fanes-cli add-post -n <nm> : Inject POST API Scaffolding');
   print('  fanes-cli add-get -n <nm>  : Inject GET API Scaffolding');
