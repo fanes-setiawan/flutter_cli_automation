@@ -9,7 +9,7 @@ import '../lib/commands/widget_generator.dart';
 import '../lib/commands/hive_generator.dart';
 import '../lib/commands/api_generator.dart';
 
-const String cliVersion = '1.0.8';
+const String cliVersion = '1.0.9';
 
 void main(List<String> arguments) {
   final parser = ArgParser();
@@ -113,7 +113,7 @@ void _showUsage() {
   print('Modern Flutter Scaffolding Tool by Fanes-Code\n');
   
   print('\x1B[32mUsage:\x1B[0m');
-  print('  fanes-cli <command> [options]\n');
+  print('  fanes-code <command> [options]\n');
 
   print('\x1B[32mAvailable Commands:\x1B[0m');
   print('  \x1B[36minit\x1B[0m             : Setup folder core, routes, & providers');
@@ -129,5 +129,5 @@ void _showUsage() {
   print('  \x1B[36mguide\x1B[0m            : Lihat tutorial lengkap & contoh penggunaan');
   print('  \x1B[36mversion\x1B[0m          : Tampilkan versi CLI saat ini\n');
 
-  print('\x1B[33m💡 Tips:\x1B[0m Jalankan \x1B[32mfanes-cli guide\x1B[0m untuk panduan mendalam.');
+  print('\x1B[33m💡 Tips:\x1B[0m Jalankan \x1B[32mfanes-code guide\x1B[0m untuk panduan mendalam.');
 }
