@@ -34,7 +34,7 @@ void main(List<String> arguments) {
     final commandName = results.command?.name;
 
     if (commandName == 'version') {
-      print('🚀 Fanes-Code CLI Version: $cliVersion');
+      print('🚀 [FINAL VERSION] Fanes-Code CLI Version: $cliVersion');
       return;
     }
     if (commandName == 'guide') {
@@ -87,15 +87,15 @@ void main(List<String> arguments) {
 }
 
 void _showUsage() {
-  print('🚀 Welcome to Fanes-Code CLI! [v$cliVersion]');
+  print('🚀 [FINAL VERSION] Welcome to Fanes-Code CLI! [v$cliVersion]');
   print('Usage:');
-  print('  fanes-code init             : Setup struktur folder awal');
-  print('  fanes-code guide            : Tampilkan panduan penggunaan');
-  print('  fanes-code version          : Tampilkan versi CLI');
-  print('  fanes-code w-password       : Create Password Field Widget');
-  print('  fanes-code h-init           : Setup Hive Local Storage');
-  print('  fanes-code add-post -n <nm> : Inject POST API Scaffolding');
-  print('  fanes-code add-get -n <nm>  : Inject GET API Scaffolding');
-  print('  fanes-code bloc -n <nama>   : Create BLoC feature');
-  print('  fanes-code getx -n <nama>   : Create GetX feature');
+  print('  fanes-cli init             : Setup struktur folder awal');
+  print('  fanes-cli guide            : Tampilkan panduan penggunaan');
+  print('  fanes-cli version          : Tampilkan versi CLI');
+  print('  fanes-cli w-password       : Create Password Field Widget');
+  print('  fanes-cli h-init           : Setup Hive Local Storage');
+  print('  fanes-cli add-post -n <nm> : Inject POST API Scaffolding');
+  print('  fanes-cli add-get -n <nm>  : Inject GET API Scaffolding');
+  print('  fanes-cli bloc -n <nama>   : Create BLoC feature');
+  print('  fanes-cli getx -n <nama>   : Create GetX feature');
 }
