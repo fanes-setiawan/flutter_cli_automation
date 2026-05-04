@@ -39,7 +39,11 @@ class AppPages {
 ''');
 
     print('✅ Struktur folder & File utama (Providers & Routes) berhasil dibuat!');
-    print('💡 Tips: Panggil "AppProviders.providers" di MultiBlocProvider pada main.dart Anda.');
+    print('\n\x1B[33m💡 Tips: Gunakan AppProviders (BLoC) atau AppPages (GetX) di main.dart:\x1B[0m');
+    print('   // Jika pakai GetX:');
+    print('   GetMaterialApp(getPages: AppPages.routes)');
+    print('   // Jika pakai BLoC:');
+    print('   MultiBlocProvider(providers: AppProviders.providers, child: ...)');
   }
 
   static void _createAppProviders() {

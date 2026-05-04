@@ -26,9 +26,10 @@ class GuideGenerator {
     print('   \$ fanes-code add-post -n update-profile');
     print('   Menyuntikkan boilerplate API (Model, DataSource, Repo) secara instan.');
 
-    print('\n\x1B[32m5. Local Storage (Hive)\x1B[0m');
+    print('\n\x1B[32m5. Local Storage & Models\x1B[0m');
     print('   \$ fanes-code h-init');
-    print('   Setup boilerplate Hive agar siap digunakan di project.');
+    print('   \$ fanes-code model -n user');
+    print('   Membuat boilerplate Hive atau Data Model (fromJson/toJson).');
 
     print('\n\x1B[32m6. UI Components\x1B[0m');
     print('   \$ fanes-code w-password');

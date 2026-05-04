@@ -26,6 +26,11 @@ class GetXGenerator {
     _injectRoutes(snakeName, pascalName);
 
     print('✅ Berhasil membuat GetX Feature: $pascalName');
+    print('\n\x1B[33m💡 Tips: Gunakan AppPages di GetMaterialApp pada main.dart:\x1B[0m');
+    print('   GetMaterialApp(');
+    print('     initialRoute: AppPages.INITIAL,');
+    print('     getPages: AppPages.routes,');
+    print('   )');
   }
 
   static void _createFiles(String baseDir, String snakeName, String pascalName) {

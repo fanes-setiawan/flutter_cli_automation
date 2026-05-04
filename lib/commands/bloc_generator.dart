@@ -28,6 +28,11 @@ class BlocGenerator {
     _injectProvider(snakeName, pascalName);
 
     print('✅ Berhasil membuat BLoC Feature: $pascalName & Terdaftar di AppProviders/Routes');
+    print('\n\x1B[33m💡 Tips: Bungkus MaterialApp Anda dengan MultiBlocProvider di main.dart:\x1B[0m');
+    print('   MultiBlocProvider(');
+    print('     providers: AppProviders.providers,');
+    print('     child: const MyApp(),');
+    print('   )');
   }
 
   static void _createFiles(String baseDir, String snakeName, String pascalName) {

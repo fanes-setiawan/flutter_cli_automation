@@ -8,8 +8,9 @@ import '../lib/commands/guide_generator.dart';
 import '../lib/commands/widget_generator.dart';
 import '../lib/commands/hive_generator.dart';
 import '../lib/commands/api_generator.dart';
+import '../lib/commands/model_generator.dart';
 
-const String cliVersion = '1.0.9';
+const String cliVersion = '1.1.0';
 
 void main(List<String> arguments) {
   final parser = ArgParser();
@@ -22,6 +23,9 @@ void main(List<String> arguments) {
   parser.addCommand('w-form-name');
   parser.addCommand('h-init');
   
+  final modelCommand = parser.addCommand('model');
+  modelCommand.addOption('name', abbr: 'n', help: 'Nama model');
+  
   final postCommand = parser.addCommand('add-post');
   postCommand.addOption('name', abbr: 'n', help: 'Nama fungsi API');
 
@@ -30,6 +34,7 @@ void main(List<String> arguments) {
 
   final blocCommand = parser.addCommand('bloc');
   blocCommand.addOption('name', abbr: 'n', help: 'Nama feature');
+
   final getxCommand = parser.addCommand('getx');
   getxCommand.addOption('name', abbr: 'n', help: 'Nama feature');
 
@@ -67,26 +72,44 @@ void main(List<String> arguments) {
     } else if (commandName == 'h-init') {
       HiveGenerator.generate();
     } else if (commandName == 'add-post') {
-      final name = results.command!['name'];
+      var name = results.command!['name'];
+      if (name == null && results.command!.rest.isNotEmpty) {
+        name = results.command!.rest.first;
+      }
       if (name == null) return _showUsage();
-      // Jalankan API generator di folder asli user
       Directory.current = originalCwd; 
       ApiGenerator.addApi(name, 'POST');
     } else if (commandName == 'add-get') {
-      final name = results.command!['name'];
+      var name = results.command!['name'];
+      if (name == null && results.command!.rest.isNotEmpty) {
+        name = results.command!.rest.first;
+      }
       if (name == null) return _showUsage();
       Directory.current = originalCwd;
       ApiGenerator.addApi(name, 'GET');
     } else if (commandName == 'init') {
       InitGenerator.generate();
     } else if (commandName == 'bloc') {
-      final name = results.command!['name'];
+      var name = results.command!['name'];
+      if (name == null && results.command!.rest.isNotEmpty) {
+        name = results.command!.rest.first;
+      }
       if (name == null) return _showUsage();
       BlocGenerator.generate(name);
     } else if (commandName == 'getx') {
-      final name = results.command!['name'];
+      var name = results.command!['name'];
+      if (name == null && results.command!.rest.isNotEmpty) {
+        name = results.command!.rest.first;
+      }
       if (name == null) return _showUsage();
       GetXGenerator.generate(name);
+    } else if (commandName == 'model') {
+      var name = results.command!['name'];
+      if (name == null && results.command!.rest.isNotEmpty) {
+        name = results.command!.rest.first;
+      }
+      if (name == null) return _showUsage();
+      ModelGenerator.generate(name);
     } else {
       _showUsage();
     }
@@ -126,6 +149,7 @@ void _showUsage() {
   print('  \x1B[36mw-button\x1B[0m         : Create Custom Button Widget');
   print('  \x1B[36mw-form-name\x1B[0m      : Create Name Field Widget');
   print('  \x1B[36mh-init\x1B[0m           : Setup Hive Local Storage');
+  print('  \x1B[36mmodel -n <nama>\x1B[0m  : Create Data Model (fromJson/toJson)');
   print('  \x1B[36mguide\x1B[0m            : Lihat tutorial lengkap & contoh penggunaan');
   print('  \x1B[36mversion\x1B[0m          : Tampilkan versi CLI saat ini\n');
 
