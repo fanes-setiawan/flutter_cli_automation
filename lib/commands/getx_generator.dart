@@ -24,13 +24,36 @@ class GetXGenerator {
 
     // Otomatis Daftarkan Rute
     _injectRoutes(snakeName, pascalName);
+    _injectMain();
 
     print('✅ Berhasil membuat GetX Feature: $pascalName');
-    print('\n\x1B[33m💡 Tips: Gunakan AppPages di GetMaterialApp pada main.dart:\x1B[0m');
-    print('   GetMaterialApp(');
-    print('     initialRoute: AppPages.INITIAL,');
-    print('     getPages: AppPages.routes,');
-    print('   )');
+    print('\n\x1B[33m💡 Tips: main.dart telah di-update otomatis (GetMaterialApp & Routes).\x1B[0m');
+  }
+
+  static void _injectMain() {
+    final file = File('lib/main.dart');
+    if (!file.existsSync()) return;
+
+    String content = file.readAsStringSync();
+
+    // 1. Tambah Imports
+    if (!content.contains("import 'package:get/get.dart';")) {
+      content = "import 'package:get/get.dart';\n" + content;
+    }
+    if (!content.contains("import 'core/routes/app_pages.dart';")) {
+      content = "import 'core/routes/app_pages.dart';\n" + content;
+    }
+
+    // 2. Ubah MaterialApp jadi GetMaterialApp
+    content = content.replaceAll('MaterialApp(', 'GetMaterialApp(');
+
+    // 3. Tambah initialRoute & getPages jika belum ada
+    if (!content.contains('getPages:')) {
+      content = content.replaceFirst('GetMaterialApp(', 
+        'GetMaterialApp(\\n        initialRoute: AppPages.INITIAL,\\n        getPages: AppPages.routes,');
+    }
+
+    file.writeAsStringSync(content);
   }
 
   static void _createFiles(String baseDir, String snakeName, String pascalName) {

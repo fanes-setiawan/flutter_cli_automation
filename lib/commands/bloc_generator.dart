@@ -26,13 +26,40 @@ class BlocGenerator {
 
     // OTOMATIS DAFTARKAN KE app_providers.dart (Create if missing)
     _injectProvider(snakeName, pascalName);
+    _injectMain();
 
     print('✅ Berhasil membuat BLoC Feature: $pascalName & Terdaftar di AppProviders/Routes');
-    print('\n\x1B[33m💡 Tips: Bungkus MaterialApp Anda dengan MultiBlocProvider di main.dart:\x1B[0m');
-    print('   MultiBlocProvider(');
-    print('     providers: AppProviders.providers,');
-    print('     child: const MyApp(),');
-    print('   )');
+    print('\n\x1B[33m💡 Tips: main.dart telah di-update otomatis (MultiBlocProvider).\x1B[0m');
+  }
+
+  static void _injectMain() {
+    final file = File('lib/main.dart');
+    if (!file.existsSync()) return;
+
+    String content = file.readAsStringSync();
+
+    // 1. Tambah Imports
+    if (!content.contains("import 'package:flutter_bloc/flutter_bloc.dart';")) {
+      content = "import 'package:flutter_bloc/flutter_bloc.dart';\n" + content;
+    }
+    if (!content.contains("import 'app_providers.dart';")) {
+      content = "import 'app_providers.dart';\n" + content;
+    }
+
+    // 2. Bungkus dengan MultiBlocProvider jika belum ada
+    if (!content.contains('MultiBlocProvider')) {
+      if (content.contains('GetMaterialApp')) {
+        content = content.replaceFirst('GetMaterialApp(', 'MultiBlocProvider(\\n      providers: AppProviders.providers,\\n      child: GetMaterialApp(');
+        int lastBrace = content.lastIndexOf(');');
+        content = content.substring(0, lastBrace) + '      ),\\n    ' + content.substring(lastBrace);
+      } else if (content.contains('MaterialApp')) {
+        content = content.replaceFirst('MaterialApp(', 'MultiBlocProvider(\\n      providers: AppProviders.providers,\\n      child: MaterialApp(');
+        int lastBrace = content.lastIndexOf(');');
+        content = content.substring(0, lastBrace) + '      ),\\n    ' + content.substring(lastBrace);
+      }
+    }
+
+    file.writeAsStringSync(content);
   }
 
   static void _createFiles(String baseDir, String snakeName, String pascalName) {
