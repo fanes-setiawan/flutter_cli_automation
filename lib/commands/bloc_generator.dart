@@ -48,14 +48,23 @@ class BlocGenerator {
 
     // 2. Bungkus dengan MultiBlocProvider jika belum ada
     if (!content.contains('MultiBlocProvider')) {
-      if (content.contains('GetMaterialApp')) {
-        content = content.replaceFirst('GetMaterialApp(', 'MultiBlocProvider(\\n      providers: AppProviders.providers,\\n      child: GetMaterialApp(');
+      String target = '';
+      if (content.contains('GetMaterialApp(')) {
+        target = 'GetMaterialApp(';
+      } else if (content.contains('MaterialApp(')) {
+        target = 'MaterialApp(';
+      }
+
+      if (target.isNotEmpty) {
+        content = content.replaceFirst(target, '''MultiBlocProvider(
+      providers: AppProviders.providers,
+      child: $target''');
+        
+        // Coba cari penutup MaterialApp/GetMaterialApp
         int lastBrace = content.lastIndexOf(');');
-        content = content.substring(0, lastBrace) + '      ),\\n    ' + content.substring(lastBrace);
-      } else if (content.contains('MaterialApp')) {
-        content = content.replaceFirst('MaterialApp(', 'MultiBlocProvider(\\n      providers: AppProviders.providers,\\n      child: MaterialApp(');
-        int lastBrace = content.lastIndexOf(');');
-        content = content.substring(0, lastBrace) + '      ),\\n    ' + content.substring(lastBrace);
+        if (lastBrace != -1) {
+          content = content.substring(0, lastBrace) + '      ),\n    ' + content.substring(lastBrace);
+        }
       }
     }
 

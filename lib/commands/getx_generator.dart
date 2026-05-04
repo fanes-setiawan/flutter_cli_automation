@@ -44,13 +44,17 @@ class GetXGenerator {
       content = "import 'core/routes/app_pages.dart';\n" + content;
     }
 
-    // 2. Ubah MaterialApp jadi GetMaterialApp
-    content = content.replaceAll('MaterialApp(', 'GetMaterialApp(');
+    // 2. Ubah MaterialApp jadi GetMaterialApp (Jika belum)
+    if (content.contains('MaterialApp(') && !content.contains('GetMaterialApp(')) {
+      content = content.replaceAll('MaterialApp(', 'GetMaterialApp(');
+    }
 
     // 3. Tambah initialRoute & getPages jika belum ada
     if (!content.contains('getPages:')) {
       content = content.replaceFirst('GetMaterialApp(', 
-        'GetMaterialApp(\\n        initialRoute: AppPages.INITIAL,\\n        getPages: AppPages.routes,');
+        '''GetMaterialApp(
+        initialRoute: AppPages.INITIAL,
+        getPages: AppPages.routes,''');
     }
 
     file.writeAsStringSync(content);

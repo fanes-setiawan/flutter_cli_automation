@@ -10,7 +10,7 @@ import '../lib/commands/hive_generator.dart';
 import '../lib/commands/api_generator.dart';
 import '../lib/commands/model_generator.dart';
 
-const String cliVersion = '1.1.1';
+const String cliVersion = '1.1.2';
 
 void main(List<String> arguments) {
   final parser = ArgParser();
